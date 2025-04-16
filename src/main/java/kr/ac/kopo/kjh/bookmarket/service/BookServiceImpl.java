@@ -17,4 +17,16 @@ public class BookServiceImpl implements BookService {
     public List<Book> getAllBookList() {
         return bookRepository.getAllBookList();
     }
+
+    @Override
+    public Book getBookById(String bookId) {
+        Book book = bookRepository.getBookById(bookId);
+        return book;
+    }
+
+    @Override
+    public List<Book> getBookListByCategory(String category){
+        List<Book> boosByCategory = bookRepository.getBookListByCategory(category);
+        return boosByCategory;
+    }
 }
