@@ -38,4 +38,9 @@ public class BookServiceImpl implements BookService {
 
         return bookSetByFilter;
     }
+
+    @Override
+    public void setNewBook(Book book) {
+
+    }
 }

@@ -3,11 +3,15 @@ package kr.ac.kopo.kjh.bookmarket.controlloer;
 import kr.ac.kopo.kjh.bookmarket.domain.Book;
 import kr.ac.kopo.kjh.bookmarket.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +21,10 @@ import java.util.Set;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Value("${file.uploadDir}")
+    String fileDir;
+
 
 
     @GetMapping
@@ -63,8 +71,22 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String requestSubmitNewBook(@ModelAttribute("book") Book book ){
+    public String requestSubmitNewBook(@ModelAttribute("book") Book book){
+        MultipartFile bookImage = book.getBookImage();
+        String saveName = bookImage.getOriginalFilename();
+        File saveFile = new File(fileDir + saveName);
+
+        try {
+            bookImage.transferTo(saveFile);
+        } catch (IOException e) {
+            throw new RuntimeException("도서 이미지 업로드가 되지 않았습니다.");
+        }
+        book.setFileName(saveName);
+
         bookService.setNewBook(book);
         return "redirect:/books";
+
+
     }
+
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -22,4 +23,6 @@ public class Book {
     private long unitInStock;   //재고수
     private String releaseDate; //출판일(월/년)
     private String condition;   //신규,중고,전자책
+    private String fileName;
+    private MultipartFile bookImage;
 }
